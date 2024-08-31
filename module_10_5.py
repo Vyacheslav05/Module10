@@ -1,5 +1,5 @@
 import time
-from multiprocessing import Pool
+import multiprocessing
 
 def read_info(name):
     all_data = []
@@ -10,8 +10,9 @@ def read_info(name):
                 break
             all_data.append(line)
 
+filenames = [f'./file {number}.txt' for number in range(1, 5)]
+
 if __name__ == '__main__':
-    filenames = [f'./file {number}.txt' for number in range(1, 5)]
 
     # Линейный вызов
     start_time = time.time()
@@ -22,7 +23,7 @@ if __name__ == '__main__':
 
     # Многопроцессный вызов
     start_time = time.time()
-    with Pool() as pool:
+    with multiprocessing.Pool(processes=4) as pool:
         pool.map(read_info, filenames)
     multiprocess_time = time.time() - start_time
     print(f'Многопроцессный вызов: {multiprocess_time}')
